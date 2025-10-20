@@ -54,3 +54,6 @@ class ActorManager:
         cur.execute(query, (pk,))
         self.conn.commit()
         return cur.rowcount > 0
+
+    def close(self) -> None:
+        self.conn.close()
