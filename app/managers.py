@@ -39,3 +39,18 @@ class ActorManager:
                         last_name=row[2]) for row in rows
                   ]
         return actors
+
+    def update(self, pk: int, new_first_name: str, new_last_name: str) -> bool:
+        cur = self.conn.cursor()
+        query = (f"UPDATE {self.table_name} "
+                 f"SET first_name = ?, last_name = ? WHERE id = ?")
+        cur.execute(query, (new_first_name, new_last_name, pk))
+        self.conn.commit()
+        return cur.rowcount > 0
+
+    def delete(self, pk: int) -> bool:
+        cur = self.conn.cursor()
+        query = (f"DELETE FROM {self.table_name} WHERE id = ?")
+        cur.execute(query, (pk,))
+        self.conn.commit()
+        return cur.rowcount > 0
